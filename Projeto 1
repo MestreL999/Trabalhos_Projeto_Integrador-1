@@ -1,0 +1,133 @@
+#include<stdio.h>
+
+int main(){
+int a;
+
+printf("Escolha uma das ferramentas:\n"
+    "1 - Contador de Agua\n"
+    "2 - Frase Motivacional\n"
+    "3 - Conversor de Medidas\n"
+    "4 - Calculadora de Nutricao (Proteinas)\n"
+    "5 - Calculadora de IMC\n"
+    "6 - Simulador de Juros Compostos\n"
+    "7 - Calculadora de Taxa Metabolica\n"
+    "8 - Gerador de Senhas\n"
+    "Opcao: "
+    );
+
+scanf("%d", &a);
+
+switch (a) {
+        case 1:
+            // L�gica do contador de �gua
+            break;
+        case 2:
+            // L�gica da frase motivacional
+            break;
+
+        case 3: {
+            int sub_opcao;
+            float valor, resultado;
+
+            printf("\n--- CONVERSOR DE MEDIDAS ---\n");
+            printf("1 - Metros para Centimetros\n");
+            printf("2 - Centimetros para Metros\n");
+            printf("3 - Quilometros para Milhas\n");
+            printf("4 - Celsius para Fahrenheit\n");
+            printf("5 - Fahrenheit para Celsius\n");
+
+            printf("Escolha a conversao desejada: ");
+            scanf("%d", &sub_opcao);
+
+            // Pergunta o valor apenas se a op��o for v�lida
+            if (sub_opcao >= 1 && sub_opcao <= 5) {
+                printf("Digite o valor a ser convertido: ");
+                scanf("%f", &valor); // %f � usado para ler n�meros com v�rgula (float)
+            }
+
+            switch(sub_opcao) {
+                case 1:
+                    resultado = valor * 100.0;
+                    // %.2f mostra o n�mero com apenas 2 casas decimais
+                    printf("\nResultado: %.2f metros = %.2f centimetros.\n", valor, resultado);
+                    break;
+
+                case 2:
+                    resultado = valor / 100.0;
+                    printf("\nResultado: %.2f centimetros = %.2f metros.\n", valor, resultado);
+                    break;
+
+                case 3:
+                    resultado = valor * 0.621371;
+                    printf("\nResultado: %.2f quilometros = %.2f milhas.\n", valor, resultado);
+                    break;
+
+                case 4:
+                    resultado = (valor * 9.0 / 5.0) + 32.0;
+                    printf("\nResultado: %.2f graus Celsius = %.2f graus Fahrenheit.\n", valor, resultado);
+                    break;
+
+                case 5:
+                    resultado = (valor - 32.0) * 5/9;
+                    printf("\nResultado: %.2f graus Fahrenheit = %.2f graus Celsius.\n", valor, resultado);
+                    break;
+
+                default:
+                    printf("\nOpcao invalida!\n");
+                    break;
+            }
+            break; // Este break finaliza o case 3 principal
+        }
+        case 4:
+            // L�gica de alimenta��o
+            break;
+        case 5:
+            {
+              float peso;
+              float altura;
+              float imc;
+
+    
+              printf("Informe a sua altura (m): ");
+              scanf("%f", &altura);
+            
+              printf("Informe o seu peso (kg): ");
+              scanf("%f", &peso);
+            
+                imc =  peso / (altura * altura);
+
+                if (imc < 18.5) {
+                    printf("Seu IMC é %.2f kg/m² e você está abaixo do peso!", imc);
+                } 
+                else if (imc >= 18.5 && imc < 25.0) {
+                    printf("Seu IMC é %.2f kg/m² e você está com o peso ideal!", imc);
+                } 
+                else if (imc >= 25 && imc < 30.0) {
+                    printf("Seu IMC é %.2f kg/m² e você está com excesso de peso!", imc);
+                } 
+                else if (imc >= 30 && imc < 35.0) {
+                    printf("Seu IMC é %.2f kg/m² e você está com obesidade classe I!", imc);
+                } 
+                else if (imc >= 35 && imc < 40.0) {
+                    printf("Seu IMC é %.2f kg/m² e você está com obesidade classe II!", imc);
+                } 
+                else {
+                    printf("Seu IMC é %.2f kg/m² e você está com obesidade classe III!", imc);
+                }
+                break;
+        }
+            
+        case 6:
+            // L�gica dos juros compostos
+            break;
+        case 7:
+            // L�gica da taxa metab�lica
+            break;
+        case 8:
+            // L�gica do gerador de senha
+            break;
+        default:
+            printf("Op��o inv�lida!\n");
+            break;
+    }
+}
