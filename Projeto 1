@@ -86,7 +86,7 @@ switch (a) {
     
     scanf("%lf",&peso);
     
-    printf("Digite o número do perfil em que você se encaixa\n");
+    printf("\nDigite o número do perfil em que você se encaixa\n");
     printf("1 - Sedentário.\n");
     printf("2 - Praticante de atividade física moderada / manutenção.\n");
     printf("3 - Ganho de massa muscular.\n");
@@ -168,6 +168,35 @@ switch (a) {
             break;
         case 8:
             // L�gica do gerador de senha
+            break;
+        case 67:
+            printf("\nParabéns! Você desbloqueou o SECRET MODE do Zanetti's Life. O que deseja fazer?\n");
+    
+    int opcao;
+    
+    printf("\n1 - Zerar toda a turma.\n");
+    printf("2 - Aniquilar, em totalidade, a árvore genealógica do aluno que mandou um arquivo do tipo RAR.\n");
+    
+    scanf("%d",&opcao);
+    
+    switch(opcao) {
+                case 1:
+                
+                    
+                    printf("\nArthur Ferraz -> Zerado com sucesso!!!\n...\nLorenzo Salton -> Zerado com sucesso!!!\n");
+                    printf("...\nTodos os alunos foram zerados com êxito :) Tenha um ótimo dia, senhor Zanetti!\n");
+                    break;
+
+                case 2:
+                    
+                    printf("\nUm míssil nuclear está sendo lançado para a casa de cada familiar do ser humano mediocre que mandou um arquivo do tipo RAR.\n");
+                    printf("Dessa forma, o Planeta Terra será poupado de muitos idiotas e se tornará um lugar mais feliz, salutar e, sobretudo, pacífico.\n");
+                    break;
+
+                default:
+                    printf("\nOpcao invalida!\n");
+                    break;
+            }
             break;
         default:
             printf("Op��o inv�lida!\n");
