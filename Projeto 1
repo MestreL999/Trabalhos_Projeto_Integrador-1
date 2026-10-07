@@ -79,7 +79,50 @@ switch (a) {
             break; // Este break finaliza o case 3 principal
         }
         case 4:
-            // L�gica de alimenta��o
+            double peso;
+    int fator;
+    
+    printf("Informe seu peso em Kg.\n");
+    
+    scanf("%lf",&peso);
+    
+    printf("Digite o número do perfil em que você se encaixa\n");
+    printf("1 - Sedentário.\n");
+    printf("2 - Praticante de atividade física moderada / manutenção.\n");
+    printf("3 - Ganho de massa muscular.\n");
+    printf("4 - Atleta de alto rendimento / dieta de restrição calórica.\n");
+    
+    scanf("%d",&fator);
+    
+    double resultado;
+    
+    
+        switch(fator) {
+                case 1:
+                    resultado = peso * 0.9;
+                    
+                    printf("\nVocê deve consumir uma média de %.lf gramas de proteína ao dia.\n",resultado);
+                    break;
+
+                case 2:
+                    resultado = peso * 1.35;
+                    printf("\nVocê deve consumir uma média de %.lf gramas de proteína ao dia.\n",resultado);
+                    break;
+
+                case 3:
+                    resultado = peso * 1.9;
+                    printf("\nVocê deve consumir uma média de %.lf gramas de proteína ao dia.\n",resultado);
+                    break;
+
+                case 4:
+                    resultado = peso * 2.1;
+                    printf("\nVocê deve consumir uma média de %.lf gramas de proteína ao dia.\n",resultado);
+                    break;
+
+                default:
+                    printf("\nOpcao invalida!\n");
+                    break;
+            }
             break;
         case 5:
             {
