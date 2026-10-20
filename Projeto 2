@@ -22,9 +22,58 @@ typedef struct Lista{
     
 }Lista;
 
+Lista *criar_lista() {
+    Lista *lista = malloc(sizeof(Lista));
+
+    if (lista == NULL) {
+        return NULL;
+    }
+
+    lista->primeiro = NULL;
+    lista->ultimo = NULL;
+    lista->tamanho = 0;
+
+    return lista;
+}
+
+Livro *inserir_fim(Lista *lista, int codigo, char titulo, char autor, int ano, int qtd) {
+    if (lista == NULL) {
+        return NULL;
+    }
+
+    Livro *novo = malloc(sizeof(Livro));
+
+    if (novo == NULL) {
+        return NULL;
+    }
+    
+
+    novo->codigo = codigo;
+    novo->titulo = titulo;
+    novo->autor = autor;
+    novo->ano = ano;
+    novo->qtd = qtd;
+    novo->disp = qtd;
+    novo->proximo = NULL;
+
+    if (lista->tamanho == 0) {
+        lista->primeiro = novo;
+        lista->ultimo = novo;
+    } else {
+        lista->ultimo->proximo = novo;
+        lista->ultimo = novo;
+    }
+
+    lista->tamanho++;
+
+    return novo;
+}
+
 int main()
 {
     int continuar;
+    
+    Lista *lista = criar_lista();
     
 	printf("Bem vindo ao Babilônicos, qual é a função que você deseja?\n");
 	do{
@@ -46,32 +95,57 @@ int main()
 	
 	switch(op){
 	    
-	    case 1:
-	        break;
-	    
-	    case 2:
-	        break;
-	    
-	    case 3:
-	        break;
+	    case 1:{
+	        int ccc, aaa, qqq;
+	        char[100] nnn;
+	        char[100] att;
+	        printf("\nInsira o código:\n");
+	        scanf("%d",&ccc);
+	        printf("\nInsira o ano de publicação:\n");
+	        scanf("%d",&aaa);
+	        printf("\nInsira a quantidade:\n");
+	        scanf("%d",&qqq);
+	        printf("\nInsira o título do livro:\n");
+	        fgets(nnn,sizeof(nnn),stdin);
+	        printf("\nInsira o autor:\n");
+	        fgets(att,sizeof(att),stdin);
 	        
-	    case 4:
-	        break;
+	        Livro* novo = inserir_fim(*lista,ccc,aaa,qqq,nnn,att);
 	        
-	    case 5:
 	        break;
+	    }
 	    
-	    case 6:
+	    case 2:{
 	        break;
+	    }
 	    
-	    case 7:
+	    case 3:{
 	        break;
+	    }
 	        
-	    case 8:
+	    case 4:{
 	        break;
+	    }
 	        
-	    case 9:
+	    case 5:{
 	        break;
+	    }
+	    
+	    case 6:{
+	        break;
+	    }
+	    
+	    case 7:{
+	        break;
+	    }
+	        
+	    case 8:{
+	        break;
+	    }
+	        
+	    case 9:{
+	        break;
+	    }
 	        
 	    default:
 	        printf("\nOpção inválida.\n");
