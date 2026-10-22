@@ -73,7 +73,7 @@ Livro *buscar_por_titulo(Lista *lista, const char *titulo) {
     return NULL;
 }
 
-// Funções de busca implementadas pelo seu colega
+// Funções de busca
 Livro *buscar_por_codigo(Lista *lista, int codigo_busca) {
     if (lista == NULL) {
         return NULL;
@@ -110,6 +110,188 @@ void buscar_por_titulo_ou_autor(Lista *lista, const char *termo) {
     }
 }
 
+// Função de atualização (Case 4)
+void atualizar_informacoes(Lista *lista) {
+    int codigo, opcao, info_nova;
+
+    printf("\nDigite o código do livro que deseja atualizar: ");
+    scanf("%d", &codigo);
+    Livro *l = buscar_por_codigo(lista, codigo); 
+    if (l == NULL) {
+        printf("\nNão há nenhum livro com esse código na lista.\n");
+        return;
+    }
+
+    printf("\n1 - Código");
+    printf("\n2 - Título");
+    printf("\n3 - Autor");
+    printf("\n4 - Ano de publicação");
+    printf("\n5 - Quantidade");
+    printf("\n6 - Disponibilidade");
+    printf("\n Qual informação você deseja atualizar? ");
+    scanf("%d", &opcao);
+
+    if (opcao == 1) {
+        printf("Insira o novo código: ");
+        scanf("%d", &info_nova);
+        if (info_nova != l->codigo && buscar_por_codigo(lista, info_nova) != NULL) {
+            printf("\nEste código já está cadastrado.\n");
+            return;
+        }
+        l->codigo = info_nova;
+    } else if (opcao == 2) {
+        printf("Insira o novo título: ");
+        scanf(" %99[^\n]", l->titulo);      
+    } else if (opcao == 3) {
+        printf("Insira o novo autor: ");
+        scanf(" %99[^\n]", l->autor);      
+    } else if (opcao == 4) {
+        printf("Insira o novo ano de publicação: ");
+        scanf("%d", &l->ano);
+    } else if (opcao == 5) {
+        printf("Insira a nova quantidade: ");
+        scanf("%d", &info_nova);
+        int emprestados = l->qtd - l->disp;
+        if (info_nova < emprestados) {
+            printf("\nA quantidade não pode ser menor que os livros emprestados (%d).\n", emprestados);
+            return;
+        }
+        l->qtd = info_nova;
+        l->disp = info_nova - emprestados;
+    } else if (opcao == 6) {
+        printf("Insira a nova disponibilidade: ");
+        scanf("%d", &info_nova);
+        if (info_nova < 0 || info_nova > l->qtd) {
+            printf("\nA disponibilidade deve estar entre 0 e %d.\n", l->qtd);
+            return;
+        }
+        l->disp = info_nova;
+    } else {
+        printf("\nOpção inválida.\n");
+        return;
+    }
+
+    printf("\nAs informações do livro foram atualizadas!\n");
+}
+
+// Função de exclusão (Case 5)
+void excluirLivro(Lista *lista, int codigo) {
+    Livro *p = lista->primeiro, *ant = NULL;
+
+    while (p != NULL && p->codigo != codigo) {
+        ant = p;
+        p = p->proximo;
+    }
+
+    if (p == NULL) {
+        printf("Livro nao encontrado!\n");
+        return;
+    }
+
+    if (ant == NULL)
+        lista->primeiro = p->proximo;
+    else
+        ant->proximo = p->proximo;
+
+    if (p == lista->ultimo)
+        lista->ultimo = ant;
+
+    free(p);
+    lista->tamanho--;
+
+    if (lista->primeiro == NULL)
+        lista->ultimo = NULL;
+
+    printf("Livro excluido!\n");
+}
+
+// Funções de ordenação (Case 8)
+void ordenar_nome(Lista *lista){
+    if(lista == NULL || lista->primeiro == NULL || lista->primeiro->proximo == NULL){
+        return;
+    }
+    
+    int trocou;
+    do{
+        trocou = 0;
+        Livro *anterior = NULL;
+        Livro *atual = lista->primeiro;
+        Livro *proximo = atual->proximo;
+        
+        while (proximo != NULL){
+            if(strcmp(atual->titulo, proximo->titulo) > 0){
+                atual->proximo = proximo->proximo;
+                proximo->proximo = atual;
+            
+                if(anterior == NULL){
+                lista->primeiro = proximo;
+                } else {
+                anterior->proximo = proximo;
+                }
+            
+                anterior = proximo;
+                proximo = atual->proximo;
+                trocou = 1;
+            } else {
+                anterior = atual;
+                atual = proximo;
+                proximo = proximo->proximo;
+            }
+        }
+    }while (trocou);
+    
+    Livro *temp = lista->primeiro;
+    while (temp != NULL && temp->proximo != NULL){
+        temp = temp->proximo;
+    }
+    lista->ultimo = temp;
+    
+    printf("\nLivros ordenados por titulo com sucesso!\n");
+}
+
+void ordenar_codigo(Lista *lista){
+    if(lista == NULL || lista->primeiro == NULL || lista->primeiro->proximo == NULL){
+        return;
+    }
+    
+    int trocou;
+    do{
+    trocou = 0;
+        Livro *anterior = NULL;
+        Livro *atual = lista->primeiro;
+        Livro *proximo = atual->proximo;
+
+        while (proximo != NULL) {
+            if (atual->codigo > proximo->codigo) {
+                atual->proximo = proximo->proximo;
+                proximo->proximo = atual;
+
+                if (anterior == NULL) {
+                    lista->primeiro = proximo;
+                } else {
+                    anterior->proximo = proximo;
+                }
+
+                anterior = proximo;
+                proximo = atual->proximo;
+                trocou = 1;
+            } else {
+                anterior = atual;
+                atual = proximo;
+                proximo = proximo->proximo;
+            }
+        }
+    } while (trocou);
+
+    Livro *temp = lista->primeiro;
+    while (temp != NULL && temp->proximo != NULL) {
+        temp = temp->proximo;
+    }
+    lista->ultimo = temp;
+
+    printf("\nLivros ordenados por código com sucesso!\n");
+}
+
 int main() {
     int continuar;
     Lista *lista = criar_lista();
@@ -124,7 +306,6 @@ int main() {
         printf("6 - Registrar empréstimo\n");
         printf("7 - Registrar devolução\n");
         printf("8 - Ordenar livros\n");
-        printf("9 - Salvar\n");
 
         printf("\nEscolha uma opção: ");
         int op;
@@ -159,7 +340,24 @@ int main() {
             }
             
             case 2: {
-                // Deixado vazio para o colega implementar
+                Livro *atual = lista->primeiro;
+
+                if (atual == NULL) {
+                    printf("\nNenhum livro cadastrado.\n");
+                    break;
+                }
+
+                while (atual != NULL) {
+                    printf("\nCodigo: %d\n", atual->codigo);
+                    printf("Titulo: %s\n", atual->titulo);
+                    printf("Autor: %s\n", atual->autor);
+                    printf("Ano: %d\n", atual->ano);
+                    printf("Quantidade: %d\n", atual->qtd);
+                    printf("Disponiveis: %d\n", atual->disp);
+                    printf("-----------------------------\n");
+
+                    atual = atual->proximo;
+                }
                 break;
             }
 
@@ -210,9 +408,18 @@ int main() {
                 break;
             }
 
-            case 4:
-            case 5:
+            case 4: {
+                atualizar_informacoes(lista);
                 break;
+            }
+
+            case 5: {
+                int codigo;
+                printf("Codigo para excluir: ");
+                scanf("%d", &codigo);
+                excluirLivro(lista, codigo);
+                break;
+            }
 
             case 6: {
                 char nome_busca[100];
@@ -258,9 +465,28 @@ int main() {
                 break;
             }
 
-            case 8:
-            case 9:
+            case 8: {
+                if (lista->tamanho == 0) {
+                    printf("\nNenhum livro cadastrado para ordenar.\n");
+                    break;
+                }
+
+                int sub_op;
+                printf("\nComo Deseja Ordenar?\n");
+                printf("1 - Ordenar por Código\n");
+                printf("2 - Ordenar por Título (Nome)\n");
+                printf("Escolha uma opção: ");
+                scanf("%d", &sub_op);
+
+                if (sub_op == 1) {
+                    ordenar_codigo(lista);
+                } else if (sub_op == 2) {
+                    ordenar_nome(lista);
+                } else {
+                    printf("\nOpção inválida.\n");
+                }
                 break;
+            }
 
             default:
                 printf("\nOpção inválida.\n");
