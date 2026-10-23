@@ -14,6 +14,7 @@ typedef struct Livro{
 
 typedef struct Lista{
     int tamanho;
+    int proximo_codigo; // Controla o próximo código gerado automaticamente
     Livro *primeiro;
     Livro *ultimo;
 } Lista;
@@ -26,10 +27,11 @@ Lista *criar_lista() {
     lista->primeiro = NULL;
     lista->ultimo = NULL;
     lista->tamanho = 0;
+    lista->proximo_codigo = 100000; // Código inicial padrão
     return lista;
 }
 
-Livro *inserir_fim(Lista *lista, int codigo, const char *titulo, const char *autor, int ano, int qtd) {
+Livro *inserir_fim(Lista *lista, const char *titulo, const char *autor, int ano, int qtd) {
     if (lista == NULL) {
         return NULL;
     }
@@ -39,7 +41,7 @@ Livro *inserir_fim(Lista *lista, int codigo, const char *titulo, const char *aut
         return NULL;
     }
 
-    novo->codigo = codigo;
+    novo->codigo = lista->proximo_codigo++; // Atribui e incrementa automaticamente
     strcpy(novo->titulo, titulo);
     strcpy(novo->autor, autor);
     novo->ano = ano;
@@ -313,12 +315,10 @@ int main() {
 
         switch(op) {
             case 1: {
-                int ccc, aaa, qqq;
+                int aaa, qqq;
                 char nnn[100];
                 char att[100];
 
-                printf("\nInsira o código:\n");
-                scanf("%d", &ccc);
                 printf("\nInsira o ano de publicação:\n");
                 scanf("%d", &aaa);
                 printf("\nInsira a quantidade:\n");
@@ -334,8 +334,8 @@ int main() {
                 fgets(att, sizeof(att), stdin);
                 att[strcspn(att, "\n")] = '\0';
 
-                inserir_fim(lista, ccc, nnn, att, aaa, qqq);
-                printf("\nLivro cadastrado com sucesso!\n");
+                inserir_fim(lista, nnn, att, aaa, qqq);
+                printf("\nLivro cadastrado com sucesso! (Código gerado automaticamente)\n");
                 break;
             }
             
